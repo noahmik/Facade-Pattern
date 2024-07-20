@@ -19,4 +19,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+
+    public Member(String name) {
+        this.name = name;
+    }
 }
