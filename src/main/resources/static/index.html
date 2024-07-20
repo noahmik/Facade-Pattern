@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>도서관 서비스</title>
+  <script>
+    async function addBook() {
+      try {
+        const title = document.getElementById('bookTitle').value;
+        const response = await fetch('http://localhost:8080/library/books?title=' + encodeURIComponent(title), {
+          method: 'POST'
+        });
+
+        if (response.ok) {
+          const book = await response.json();
+          alert(`도서가 추가되었습니다: ${book.title}`);
+        } else {
+          const text = await response.text();
+          alert(`서버 응답 오류: ${text}`);
+        }
+      } catch (error) {
+        console.error('오류 발생:', error);
+        alert('도서 추가 중 오류 발생');
+      }
+    }
+
+    async function addMember() {
+      try {
+        const name = document.getElementById('memberName').value;
+        const response = await fetch('http://localhost:8080/library/members?name=' + encodeURIComponent(name), {
+          method: 'POST'
+        });
+
+        if (response.ok) {
+          const member = await response.json();
+          alert(`회원이 추가되었습니다: ${member.name}`);
+        } else {
+          const text = await response.text();
+          alert(`서버 응답 오류: ${text}`);
+        }
+      } catch (error) {
+        console.error('오류 발생:', error);
+        alert('회원 추가 중 오류 발생');
+      }
+    }
+
+    async function borrowBook() {
+      try {
+        const bookId = document.getElementById('borrowBookId').value;
+        const memberId = document.getElementById('borrowMemberId').value;
+        const response = await fetch('http://localhost:8080/library/borrow?bookId=' + bookId + '&memberId=' + memberId, {
+          method: 'POST'
+        });
+
+        if (response.ok) {
+          const message = await response.text();
+          alert(message);
+        } else {
+          const text = await response.text();
+          alert(`서버 응답 오류: ${text}`);
+        }
+      } catch (error) {
+        console.error('오류 발생:', error);
+        alert('도서 대출 중 오류 발생');
+      }
+    }
+
+    async function returnBook() {
+      try {
+        const bookId = document.getElementById('returnBookId').value;
+        const memberId = document.getElementById('returnMemberId').value;
+        const response = await fetch('http://localhost:8080/library/return?bookId=' + bookId + '&memberId=' + memberId, {
+          method: 'POST'
+        });
+
+        if (response.ok) {
+          const message = await response.text();
+          alert(message);
+        } else {
+          const text = await response.text();
+          alert(`서버 응답 오류: ${text}`);
+        }
+      } catch (error) {
+        console.error('오류 발생:', error);
+        alert('도서 반납 중 오류 발생');
+      }
+    }
+  </script>
+</head>
+<body>
+<h1>도서관 서비스</h1>
+
+<h2>도서 추가하기</h2>
+<input type="text" id="bookTitle" placeholder="도서 제목">
+<button onclick="addBook()">도서 추가</button>
+
+<h2>회원 추가하기</h2>
+<input type="text" id="memberName" placeholder="회원 이름">
+<button onclick="addMember()">회원 추가</button>
+
+<h2>도서 대출하기</h2>
+<input type="text" id="borrowBookId" placeholder="도서 ID">
+<input type="text" id="borrowMemberId" placeholder="회원 ID">
+<button onclick="borrowBook()">도서 대출</button>
+
+<h2>도서 반납하기</h2>
+<input type="text" id="returnBookId" placeholder="도서 ID">
+<input type="text" id="returnMemberId" placeholder="회원 ID">
+<button onclick="returnBook()">도서 반납</button>
+</body>
+</html>
