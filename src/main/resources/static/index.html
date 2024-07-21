@@ -49,8 +49,12 @@
       try {
         const bookId = document.getElementById('borrowBookId').value;
         const memberId = document.getElementById('borrowMemberId').value;
-        const response = await fetch('http://localhost:8080/library/borrow?bookId=' + bookId + '&memberId=' + memberId, {
-          method: 'POST'
+        const response = await fetch('http://localhost:8080/library/borrow', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ bookId: bookId, memberId: memberId })
         });
 
         if (response.ok) {
@@ -70,8 +74,12 @@
       try {
         const bookId = document.getElementById('returnBookId').value;
         const memberId = document.getElementById('returnMemberId').value;
-        const response = await fetch('http://localhost:8080/library/return?bookId=' + bookId + '&memberId=' + memberId, {
-          method: 'POST'
+        const response = await fetch('http://localhost:8080/library/return', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ bookId: bookId, memberId: memberId })
         });
 
         if (response.ok) {
